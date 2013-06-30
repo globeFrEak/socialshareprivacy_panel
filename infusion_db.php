@@ -19,7 +19,10 @@
   +-------------------------------------------------------- */
 if (!defined("IN_FUSION")) { die("Access Denied"); }
 
-if (!defined("DB_SOCIALSP")) {
-	define("DB_SOCIALSP", DB_PREFIX."socialshareprivacy");
+if (!defined("DB_SSP")) {
+	define("DB_SSP", DB_PREFIX."ssp_main");
+}
+if (!defined("DB_SSP_SER")) {
+	define("DB_SSP_SER", DB_PREFIX."ssp_services");
 }
 ?>
