@@ -34,28 +34,37 @@ add_to_head('
 if (file_exists(INFUSIONS . "socialshareprivacy_panel/scripts/jquery.socialshareprivacy.min." . $settings['locale'] . ".js")) {
     include INFUSIONS . "socialshareprivacy_panel/scripts/jquery.socialshareprivacy.min." . $settings['locale'] . ".js";
 }
+
+$result = dbquery("SELECT * FROM " . DB_SSP . " WHERE id='1'");
+$data = dbarray($result);
+
+$result_service = dbquery("SELECT * FROM " . DB_SSP_SER . " WHERE service_id='" . $data['id'] . "'");
+$services = array();
+if (dbrows($result_service)) {
+    while ($serdata = dbarray($result_service)) {
+        $services[$serdata['service_key']] = $serdata['service_value'];
+    }
+}
+function keystore($array) {
+    foreach ($array as $key => $value) {
+        $echo .= "$key:{".$value."},";
+    }
+    return $echo;
+}
+
 add_to_head("<script type=\"text/javascript\">
     $.fn.socialSharePrivacy.settings.order = ['facebook', 'gplus', 'twitter', 'tumblr'];
                 $(document).ready(function () {
                     $('.socialshareprivacy').socialSharePrivacy(
                     {  
                     'path_prefix' : '" . INFUSIONS . "socialshareprivacy_panel/',
-                    'css_path':    'scripts/jquery.socialshareprivacy.min.css',
-                    'perma_option': true,
-                    'info_link_target': '_blank',
-                    'layout' : 'box',
+                    'css_path':    'scripts/jquery.socialshareprivacy.min.css',                    
+                    'perma_option': " . $data['perma_option'] . ",
+                    'info_link_target': '" . $data['info_link_target'] . "',
+                    'layout' : '" . $data['layout'] . "',
                     services : {
-                        buffer:{status:false}, 
-                        delicious:{status:false},
-                        disqus:{status:false},
-                        flattr:{status:false} ,
-                        hackernews:{status:false}, 
-                        linkedin:{status:false}, 
-                        pinterest:{status:false}, 
-                        reddit:{status:false}, 
-                        stumbleupon:{status:false},
-                        tumblr:{status:false}, 
-                        xing:{status:false}}                     
+                    " . keystore($services) . "                         
+                        }                     
                     }                    
                     );
                 });
