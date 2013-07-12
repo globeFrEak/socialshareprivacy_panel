@@ -31,12 +31,6 @@ function escapeSQuotAttr(s) {
 }
 
 function updateEmbedCode() {
-
-    //if (json != '') {
-    //    options = json;
-    //    console.log("found options in url");
-    //} else {
-
     var options = {
         //path_prefix: path_prefix_var,
         layout: $('#layout').val(),
@@ -88,21 +82,15 @@ function updateEmbedCode() {
     if (cookies) {
         head_code.push('<script type="text/javascript" src="' + path_prefix_var + 'scripts/jquery.cookies.js"></script>');
     }
-
-    //head_code.push('<script type="application/x-social-share-privacy-settings">' + escapeSQuotAttr(JSON.stringify(options)) + '</script>');
-
     head_code.push('<script type=\"text/javascript\">(\'#share\').socialSharePrivacy({' + escapeSQuotAttr(JSON.stringify(options)) + '});</script>');
 
     head_code = head_code.join('\n');
     $('#head-code').val(head_code);
     $('#head-code, label[for="head-code"]').show();
 
-
     $('#head-codejson').val(escapeSQuotAttr(JSON.stringify(options)));
     $('#head-codejson, label[for="head-codejson"]').show();
-
-
-
+    
     $('#foot-code').val(
             "<script type=\"text/javascript\">(function () {" +
             "var s = document.createElement('script');" +
@@ -114,23 +102,12 @@ function updateEmbedCode() {
             "})();" +
             "</script>").show();
     $('label[for="foot-code"]').show();
-
-
-    $('#share-code').val("<div data-social-share-privacy='true'></div>");
-
-    options.css_path = 'scripts/jquery.socialshareprivacy.min.css';
-    //    console.log("created options from form");
-    //}
-    //console.log(options)
-    //options.perma_option = cookies;
-    //options.css_path = 'scripts/jquery.socialshareprivacy.min.css';
+    $('#share-code').val("<div data-social-share-privacy='true'></div>");    
     $("#share").socialSharePrivacy("destroy").css("position", options.layout === "line" ? "static" : "").socialSharePrivacy(options);
 }
 
 function updateForm() {
-    if (json != '') {        
-        console.log('json gefunden');
-        console.log(json.perma_option);
+    if (json != '') {
         document.getElementById('layout').value = json.layout;
         if (typeof json.uri != "undefined")
         {
@@ -146,20 +123,19 @@ function updateForm() {
         }
         if (json.perma_option == true) {
             $('#cookies').attr('checked', 'checked');
-            console.log('cookies true');
         } else {
             $('#cookies').removeAttr('checked');
-            console.log('cookies false');
         }
         if (typeof json.services != "undefined")
-        {   
+        {
             var i = 0;
-            $.each(json.services, function(key, val) {                
+            $.each(json.services, function(key, val) {
                 if (val.status == false)
-                $('#select-' + key).removeAttr('checked');
+                    $('#select-' + key).removeAttr('checked');
                 i++;
             });
-            if (i > 0) $('#select-all').removeAttr('checked');
+            if (i > 0)
+                $('#select-all').removeAttr('checked');
         }
     }
 }

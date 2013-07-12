@@ -31,31 +31,12 @@ if (file_exists(INFUSIONS . "socialshareprivacy_panel/locale/" . $settings['loca
 } else {
     include INFUSIONS . "socialshareprivacy_panel/locale/English.php";
 }
-add_to_head('<style>
-#service-select {
-width: 200px;
-position: absolute;
-left: 10px;
-top: 100px;
-}
-#service-select ul, #service-select ul li {
-list-style: none;
-margin: 0;
-padding: 0;
-}
-#service-select ul {
-overflow: auto;
-height: 200px;
-width: 200px;}
-#options-and-code {
-margin-left: 220px;
-width:0;}</style>');
-
 $json = "''";
 if (isset($_GET['ssp']) && $_GET['ssp'] == "edit" && isset($_POST['head-codejson'])) {
     $json_encode = json_encode($_POST['head-codejson']);
     $json = json_decode($json_encode);
 }
+add_to_head("<link type='text/css' href='".INFUSIONS."socialshareprivacy_panel/stylesheets/sspmain.css' rel='stylesheet' />");
 add_to_head("<script type='text/javascript' src='" . INFUSIONS . "socialshareprivacy_panel/scripts/jquery.socialshareprivacy.min.js'></script>");
 
 if (file_exists(INFUSIONS . "socialshareprivacy_panel/scripts/jquery.socialshareprivacy.min." . $settings['locale'] . ".js")) {
@@ -70,7 +51,7 @@ add_to_head('
     if(!jQuery().cookies) document.write(\'<script type="text/javascript" src="' . INFUSIONS . 'socialshareprivacy_panel/scripts/jquery.cookies.js"><\/script>\');
 </script>    
 ');
-add_to_head("<script type='text/javascript' src='" . INFUSIONS . "socialshareprivacy_panel/scripts/main.js'></script>");
+add_to_head("<script type='text/javascript' src='" . INFUSIONS . "socialshareprivacy_panel/scripts/sspmain.js'></script>");
 
 opentable($locale['ssp_admin']);
 echo "<form action='" . FUSION_SELF . $aidlink . "&ssp=edit' method='post' name='ssp_edit'>";
