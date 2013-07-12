@@ -30,9 +30,8 @@ add_to_head('
     else document.write(\'<script type="text/javascript" src="' . INFUSIONS . 'socialshareprivacy_panel/scripts/jquery.cookies.js"><\/script>\');
 </script>    
 ');
-
 if (file_exists(INFUSIONS . "socialshareprivacy_panel/scripts/jquery.socialshareprivacy.min." . $settings['locale'] . ".js")) {
-    include INFUSIONS . "socialshareprivacy_panel/scripts/jquery.socialshareprivacy.min." . $settings['locale'] . ".js";
+    add_to_head("<script type='text/javascript' src=' " . INFUSIONS . "socialshareprivacy_panel/scripts/jquery.socialshareprivacy.min." . $settings['locale'] . ".js'></script>");
 }
 
 $result = dbquery("SELECT * FROM " . DB_SSP . " WHERE id='1'");

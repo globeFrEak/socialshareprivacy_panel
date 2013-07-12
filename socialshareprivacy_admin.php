@@ -1,5 +1,4 @@
 <?php
-
 /* -------------------------------------------------------+
   | PHP-Fusion Content Management System
   | Copyright (C) 2002 - 2012 Nick Jones
@@ -32,131 +31,142 @@ if (file_exists(INFUSIONS . "socialshareprivacy_panel/locale/" . $settings['loca
 } else {
     include INFUSIONS . "socialshareprivacy_panel/locale/English.php";
 }
-
-$id = $_POST['id'];
-$name = $_POST['name'];
-$sort = $_POST['sort'];
-$active = $_POST['active'];
-$time = time();
-
-if (isset($_GET['team']) && $_GET['team'] == "add") {
-    $result = dbquery("SELECT * FROM " . DB_ETF2L . " WHERE id = '" . $_POST['id'] . "'");
-    if (dbrows($result) == 1) {
-        $result = dbquery("UPDATE " . DB_ETF2L . " SET id='$id', name='$name', sort='$sort', active='$active', time='$time' WHERE id='$id' ");
-        SAVEXML(TRUE, $id);
-    } else {
-        $result = dbquery("INSERT INTO " . DB_ETF2L . " (id, name, sort, active, time) VALUES ('$id', '$name', '$sort', '$active', '$time' )");
-        SAVEXML(TRUE, $id);
-    }
+add_to_head('<style>
+#service-select {
+width: 200px;
+position: absolute;
+left: 10px;
+top: 100px;
 }
-if (isset($_GET['team']) && $_GET['team'] == "del") {
-    $result = dbquery("DELETE FROM " . DB_ETF2L . " WHERE id='" . $_POST['id'] . "'");
+#service-select ul, #service-select ul li {
+list-style: none;
+margin: 0;
+padding: 0;
 }
+#service-select ul {
+overflow: auto;
+height: 200px;
+width: 200px;}
+#options-and-code {
+margin-left: 220px;
+width:0;}</style>');
+
+$json = "''";
+if (isset($_GET['ssp']) && $_GET['ssp'] == "edit" && isset($_POST['head-codejson'])) {
+    $json_encode = json_encode($_POST['head-codejson']);
+    $json = json_decode($json_encode);
+}
+add_to_head("<script type='text/javascript' src='" . INFUSIONS . "socialshareprivacy_panel/scripts/jquery.socialshareprivacy.min.js'></script>");
+
+if (file_exists(INFUSIONS . "socialshareprivacy_panel/scripts/jquery.socialshareprivacy.min." . $settings['locale'] . ".js")) {
+    add_to_head("<script type='text/javascript' src=' " . INFUSIONS . "socialshareprivacy_panel/scripts/jquery.socialshareprivacy.min." . $settings['locale'] . ".js'></script>");
+}
+add_to_head('
+<script type="text/javascript">
+    var json = ' . $json . ';
+        console.log(json);
+    var path_prefix_var = \'' . INFUSIONS . 'socialshareprivacy_panel/\';
+    var siteurl = \'' . $settings['siteurl'] . '\';
+    if(!jQuery().cookies) document.write(\'<script type="text/javascript" src="' . INFUSIONS . 'socialshareprivacy_panel/scripts/jquery.cookies.js"><\/script>\');
+</script>    
+');
+add_to_head("<script type='text/javascript' src='" . INFUSIONS . "socialshareprivacy_panel/scripts/main.js'></script>");
 
 opentable($locale['ssp_admin']);
-/* * Server aus DB auslesen* */
-echo "<h4>Eingetragene Server:</h4>";
-$result = dbquery("SELECT * FROM " . DB_ETF2L . " ORDER BY sort ASC");
-if (dbrows($result) != 0) {
-    echo "<table class='tbl-border forum_idx_table' cellpadding='0' cellspacing='1'>";
-    echo "<tr>";
-    echo "<td class='tbl1'><strong>ID</strong></td>";
-    echo "<td class='tbl1'><strong>Name</strong></td>";
-    echo "<td class='tbl2'><strong>Sortierung</strong></td>";
-    echo "<td class='tbl1'><strong>Active</strong></td>";
-    echo "<td class='tbl2' colspan='2'><strong>Optionen</strong></td>";
-    echo "</tr>";
-    while ($data = dbarray($result)) {
-        echo "<tr>";
-        echo "<td class='tbl1'>" . $data['id'] . "</td>";
-        echo "<td class='tbl1'>" . $data['name'] . "</td>";
-        echo "<td class='tbl2'>" . $data['sort'] . "</td>";
-        if ($data['active'] == 1) {
-            echo "<td class='tbl1'>Ja</td>";
-        } else {
-            echo "<td class='tbl1'>Nein</td>";
-        }
-        echo "<td class='tbl2'>";
-        echo "<form name='addteam' method='post' action='" . FUSION_SELF . $aidlink . "&team=del'>";
-        echo "<input type='hidden' name='id' value='" . $data['id'] . "'>";
-        echo "<input type='submit' value='l&ouml;schen'>";
-        echo "</form>";
-        echo "</td>";
-        echo "<td class='tbl1'>";
-        echo "<form name='addteam' method='post' action='" . FUSION_SELF . $aidlink . "&team=edit'>";
-        echo "<input type='hidden' name='id' value='" . $data['id'] . "'>";
-        echo "<input type='hidden' name='name' value='" . $data['name'] . "'>";
-        echo "<input type='hidden' name='sort' value='" . $data['sort'] . "'>";
-        echo "<input type='hidden' name='active' value='" . $data['active'] . "'>";
-        echo "<input type='submit' value='editieren'>";
-        echo "</form>";
-        echo "</td>";
-        echo "</tr>";
-    }
-    echo "</table>";
-} else {
-    echo "keine Server Eingetragen!";
-}
-echo "<b>" . $error . "<b>";
-echo "<hr class='side-hr'/>";
-/* * Server hinzufuegen/editieren * */
-if (isset($_GET['team']) && $_GET['team'] == "edit") {
-    echo "<h4>Server editieren:</h4>\n";
-    echo "<table class='tbl-border forum_idx_table' cellpadding='0' cellspacing='1'>\n";
-    echo "<tr>\n";
-    echo "<td class='tbl1'><strong>Server ID</strong></td>\n";
-    echo "<td class='tbl2'><strong>Name</strong></td>\n";
-    echo "<td class='tbl1'><strong>Sortierung</strong></td>\n";
-    echo "<td class='tbl2'><strong>Active</strong></td>\n";
-    echo "</tr>\n";
-    echo "<tr>\n";
-    echo "<td class='tbl1'><form name='addteam' method='post' action='" . FUSION_SELF . $aidlink . "&team=add'>\n";
-    echo "<input name='id' type='text' size='6' maxlength='8' value='$id'></td>\n";
-    echo "<td class='tbl1'><input name='name' type='text' size='50' maxlength='50' value='$name'></td>\n";
-    echo "<td class='tbl2'><input name='sort' type='text' size='3' maxlength='3' value='$sort'></td>\n";
-    if (isset($active) && $active == "1") {
-        echo "<td class='tbl1'><input type='checkbox' name='active' value='1' checked></td>\n";
-    } else {
-        echo "<td class='tbl1'><input type='checkbox' name='active' value='1'></td>\n";
-    }
-    echo "</tr>\n";
-    echo "</table>\n";
-    echo "<input type='submit' value='Absenden'>\n";
-    echo "<input type='reset' value='Abbrechen'>\n";
-    echo "</form>\n";
-} else {
-    echo "<h4>Server zur auswahl:</h4>\n";
-    echo "<table class='tbl-border forum_idx_table' cellpadding='0' cellspacing='1'>";
-    echo "<tr>";
+echo "<form action='" . FUSION_SELF . $aidlink . "&ssp=edit' method='post' name='ssp_edit'>";
+?>
+<div id="service-edit">
 
-    echo "<td class='tbl1'><strong>ID</strong></td>";
-    echo "<td class='tbl2'><strong>Name</strong></td>";
-    echo "<td class='tbl1'><strong>Sortierung</strong></td>";
-    echo "<td class='tbl2'><strong>Active</strong></td>";
-    echo "<td class='tbl1' colspan='2'><strong>Optionen</strong></td>";
-    echo "</tr>";
-    echo "<form name='addteam' method='post' action='" . FUSION_SELF . $aidlink . "&team=add'>";
-    echo "<tr>";
-    echo "<td class='tbl1'>";
-    echo "<input name='id' type='text' size='6' maxlength='8' value='" . $data['serverId'] . "'>";
-    echo "</td>";
-    echo "<td class='tbl2'>";
-    echo "<input type='text' name='name' size='60' maxlength='60' value='" . $data['name'] . "'>";
-    echo "</td>";
-    echo "<td class='tbl1'>";
-    echo "<input name='sort' type='text' size='3' maxlength='3' value='10'>";
-    echo "</td>";
-    echo "<td class='tbl2'>";
-    echo "<input type='checkbox' name='active' value='1' checked>";
-    echo "</td>";
-    echo "<td class='tbl1'>";
-    echo "<input type='submit' value='hinzuf&uuml;gen'>";
-    echo "</td>";
-    echo "</tr>";
-    echo "</form>";
-    echo "</table>";
-}
+    <div id="service-select">
+        <label for="select-all">
+            <input type="checkbox" id="select-all" value="all" checked="checked" onchange="$('#service-select ul input[type=checkbox]').prop('checked', this.checked);
+                    updateEmbedCode();">
+            All</label>
+        <ul>
+        </ul>
+    </div>
+
+    <table id="options-and-code">
+        <tbody>
+            <tr>
+                <td class="label"><label for="layout">Layout:</label></td>
+                <td>
+                    <select id="layout" onchange="updateEmbedCode();">
+                        <option value="line">Horizontal (Line)</option>
+                        <option value="box" selected="selected">Vertical (Box)</option>
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label">
+                    <label for="uri">URL (optional):</label>
+                </td>
+                <td>
+                    <input id="uri" type="url" onchange="updateEmbedCode();">
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label"></td>
+                <td>
+                    <input type="checkbox" id="cookies" onchange="updateEmbedCode();" checked="checked">
+                    <label for="cookies" class="checkbox-label">Use cookies</label>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label">
+                    <label for="flattr-uid">Flattr UID:</label>
+                </td>
+                <td>
+                    <input id="flattr-uid" type="text" onchange="updateEmbedCode();">
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label">
+                    <label for="disqus-shortname">Disqus shortname:</label>
+                </td>
+                <td>
+                    <input id="disqus-shortname" type="text" onchange="updateEmbedCode();">
+                </td>
+            </tr>
+            </tr>
+
+        </tbody>
+    </table>
+
+</div>
+
+<label for="head-code" style="">Insert this once in the head of your page:</label>
+<textarea id="head-code" onfocus="var code = this;
+                    setTimeout(function() {
+                        code.select();
+                    }, 0);" readonly="readonly"></textarea>
+
+<label for="head-codejson" style="">Insert this once in the head of your page:</label>
+<textarea name="head-codejson" id="head-codejson" onfocus="var code = this;
+                    setTimeout(function() {
+                        code.select();
+                    }, 0);" readonly="readonly"></textarea>
+
+<label for="share-code">Insert this wherever you want a share widget displayed (can be multiple times):</label>
+<textarea id="share-code" onfocus="var code = this;
+                    setTimeout(function() {
+                        code.select();
+                    }, 0);" readonly="readonly"></textarea>
+
+<label for="foot-code" style="">Insert this once anywhere after the other code (e.g. the bottom of the page):</label>
+<textarea id="foot-code" onfocus="var code = this;
+                    setTimeout(function() {
+                        code.select();
+                    }, 0);" readonly="readonly"></textarea>
+<input type="submit" value="Speichern">
+<div id="share"></div>
+</form>
+
+<?php
 closetable();
-
 require_once(THEMES . "templates/footer.php");
 ?>
