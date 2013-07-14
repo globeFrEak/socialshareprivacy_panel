@@ -31,12 +31,30 @@ if (file_exists(INFUSIONS . "socialshareprivacy_panel/locale/" . $settings['loca
 } else {
     include INFUSIONS . "socialshareprivacy_panel/locale/English.php";
 }
-$json = "''";
+//// Select SSP Button by ID
+opentable($locale['ssp_a_001']);
+
+closetable();
+
+//// Social Share Buttons Config Form
+//&& isset($_POST['id']) && is_numeric($_POST['id']) && isset($_POST['box_id'])
 if (isset($_GET['ssp']) && $_GET['ssp'] == "edit" && isset($_POST['head-codejson'])) {
-    $json_encode = json_encode($_POST['head-codejson']);
-    $json = json_decode($json_encode);
+    $json_decode = base64_encode(serialize($_POST['head-codejson']));    
+    $id = $_POST['id'];
+    $box_id = mysql_real_escape_string($_POST['box_id']);
+    $result = dbquery("UPDATE " . DB_SSP . " SET id='$id', box_id='$box_id', json_options='$json_decode' WHERE id='$id' ");    
+    $json = unserialize(base64_decode($json_decode));    
+} else {
+    $result = dbquery("SELECT * FROM " . DB_SSP . " WHERE box_id = 'ssp_box1'");
+    if (dbrows($result) != 0) {
+        $data = dbarray($result);
+        $id = $data['id'];
+        $box_id = $data['box_id'];
+        $json_options = '"' . $data['json_options'] . '"';
+    }
+    $json = unserialize(base64_decode($json_options));    
 }
-add_to_head("<link type='text/css' href='".INFUSIONS."socialshareprivacy_panel/stylesheets/sspmain.css' rel='stylesheet' />");
+add_to_head("<link type='text/css' href='" . INFUSIONS . "socialshareprivacy_panel/stylesheets/sspmain.css' rel='stylesheet' />");
 add_to_head("<script type='text/javascript' src='" . INFUSIONS . "socialshareprivacy_panel/scripts/jquery.socialshareprivacy.min.js'></script>");
 
 if (file_exists(INFUSIONS . "socialshareprivacy_panel/scripts/jquery.socialshareprivacy.min." . $settings['locale'] . ".js")) {
@@ -57,7 +75,6 @@ opentable($locale['ssp_admin']);
 echo "<form action='" . FUSION_SELF . $aidlink . "&ssp=edit' method='post' name='ssp_edit'>";
 ?>
 <div id="service-edit">
-
     <div id="service-select">
         <label for="select-all">
             <input type="checkbox" id="select-all" value="all" checked="checked" onchange="$('#service-select ul input[type=checkbox]').prop('checked', this.checked);
@@ -66,7 +83,6 @@ echo "<form action='" . FUSION_SELF . $aidlink . "&ssp=edit' method='post' name=
         <ul>
         </ul>
     </div>
-
     <table id="options-and-code">
         <tbody>
             <tr>
@@ -78,7 +94,6 @@ echo "<form action='" . FUSION_SELF . $aidlink . "&ssp=edit' method='post' name=
                     </select>
                 </td>
             </tr>
-
             <tr>
                 <td class="label">
                     <label for="uri">URL (optional):</label>
@@ -87,7 +102,6 @@ echo "<form action='" . FUSION_SELF . $aidlink . "&ssp=edit' method='post' name=
                     <input id="uri" type="url" onchange="updateEmbedCode();">
                 </td>
             </tr>
-
             <tr>
                 <td class="label"></td>
                 <td>
@@ -95,7 +109,6 @@ echo "<form action='" . FUSION_SELF . $aidlink . "&ssp=edit' method='post' name=
                     <label for="cookies" class="checkbox-label">Use cookies</label>
                 </td>
             </tr>
-
             <tr>
                 <td class="label">
                     <label for="flattr-uid">Flattr UID:</label>
@@ -104,7 +117,6 @@ echo "<form action='" . FUSION_SELF . $aidlink . "&ssp=edit' method='post' name=
                     <input id="flattr-uid" type="text" onchange="updateEmbedCode();">
                 </td>
             </tr>
-
             <tr>
                 <td class="label">
                     <label for="disqus-shortname">Disqus shortname:</label>
@@ -114,12 +126,9 @@ echo "<form action='" . FUSION_SELF . $aidlink . "&ssp=edit' method='post' name=
                 </td>
             </tr>
             </tr>
-
         </tbody>
     </table>
-
 </div>
-
 <label for="head-code" style="">Insert this once in the head of your page:</label>
 <textarea id="head-code" onfocus="var code = this;
                     setTimeout(function() {
@@ -143,9 +152,13 @@ echo "<form action='" . FUSION_SELF . $aidlink . "&ssp=edit' method='post' name=
                     setTimeout(function() {
                         code.select();
                     }, 0);" readonly="readonly"></textarea>
+          <?php
+          echo "<input type='hidden' name='id' value='" . $id . "'>";
+          echo "<input type='hidden' name='box_id' value='" . $box_id . "'>";
+          ?>
 <input type="submit" value="Speichern">
-<div id="share"></div>
 </form>
+<div id="share"></div>
 
 <?php
 closetable();
