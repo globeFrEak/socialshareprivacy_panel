@@ -1,8 +1,7 @@
 #service-select {
-    width: 200px;
+    width: 240px;
     position: absolute;
     left: 10px;
-    top: 100px;
 }
 #service-select ul, #service-select ul li {
     list-style: none;
@@ -11,8 +10,10 @@
 }
 #service-select ul {
     overflow: auto;
-    height: 200px;
-    width: 200px;}
+    height: 240px;
+    width: 200px;
+}
 #options-and-code {
     margin-left: 220px;
-    width:0;}
+    width:0;
+}

@@ -38,7 +38,7 @@ closetable();
 
 //// Social Share Buttons Config Form
 //&& isset($_POST['id']) && is_numeric($_POST['id']) && isset($_POST['box_id'])
-if (isset($_GET['ssp']) && $_GET['ssp'] == "edit" && isset($_POST['head-codejson'])) {
+if (isset($_GET['ssp']) && $_GET['ssp'] == "edit" && isset($_POST['head-codejson']) && isset($_POST['id']) && is_numeric($_POST['id']) && isset($_POST['box_id'])) {
     $json_decode = base64_encode(serialize($_POST['head-codejson']));    
     $id = $_POST['id'];
     $box_id = mysql_real_escape_string($_POST['box_id']);

@@ -1,7 +1,10 @@
+/* 
+ * main.js from Panzi (http://panzi.github.io/SocialSharePrivacy/)
+ * modified and renamed by globeFrEak (https://github.com/globeFrEak)
+ */
 $.fn.socialSharePrivacy.settings.order = ['facebook', 'twitter', 'gplus', 'mail', 'flattr', 'disqus', 'stumbleupon', 'delicious', 'reddit', 'pinterest', 'tumblr', 'linkedin', 'buffer', 'xing'];
 var disqus_shortname = 'socialshareprivacy';
 var disqus_url = $.fn.socialSharePrivacy.settings.uri($.fn.socialSharePrivacy.settings);
-
 $(document).ready(function() {
     var services = $.fn.socialSharePrivacy.settings.services;
     var $select = $('#service-select ul');
@@ -22,21 +25,18 @@ $(document).ready(function() {
     updateForm();
     updateEmbedCode();
 });
-
 var HTML_CHAR_MAP = {"<": "&lt;", ">": "&gt;", "&": "&amp;", "'": "&#39;"};
 function escapeSQuotAttr(s) {
     return s.replace(/[<>&']/g, function(ch) {
         return HTML_CHAR_MAP[ch];
     });
 }
-
 function updateEmbedCode() {
     var options = {
         //path_prefix: path_prefix_var,
         layout: $('#layout').val(),
         info_link_target: '_blank'
     };
-
     var uri = $.trim($('#uri').val());
     var cookies = $('#cookies').is(':checked') ? true : false;
     var flattr = true;
@@ -62,7 +62,6 @@ function updateEmbedCode() {
             disqus = false;
         }
     }
-
     $('#flattr-uid').prop('disabled', !flattr);
     $('#disqus-shortname').prop('disabled', !disqus);
 
@@ -71,13 +70,11 @@ function updateEmbedCode() {
             options.services = {};
         options.services.flattr = {uid: flattr_uid};
     }
-
     if (disqus && disqus_shortname) {
         if (!options.services)
             options.services = {};
         options.services.disqus = {shortname: disqus_shortname};
     }
-
     var head_code = [];
     if (cookies) {
         head_code.push('<script type="text/javascript" src="' + path_prefix_var + 'scripts/jquery.cookies.js"></script>');
@@ -90,7 +87,7 @@ function updateEmbedCode() {
 
     $('#head-codejson').val(escapeSQuotAttr(JSON.stringify(options)));
     $('#head-codejson, label[for="head-codejson"]').show();
-    
+
     $('#foot-code').val(
             "<script type=\"text/javascript\">(function () {" +
             "var s = document.createElement('script');" +
@@ -102,10 +99,9 @@ function updateEmbedCode() {
             "})();" +
             "</script>").show();
     $('label[for="foot-code"]').show();
-    $('#share-code').val("<div data-social-share-privacy='true'></div>");    
+    $('#share-code').val("<div data-social-share-privacy='true'></div>");
     $("#share").socialSharePrivacy("destroy").css("position", options.layout === "line" ? "static" : "").socialSharePrivacy(options);
 }
-
 function updateForm() {
     if (json != '') {
         document.getElementById('layout').value = json.layout;
