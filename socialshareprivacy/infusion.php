@@ -22,12 +22,12 @@ if (!defined("IN_FUSION")) {
     die("Access Denied");
 }
 
-include INFUSIONS . "socialshareprivacy_panel/infusion_db.php";
+include INFUSIONS . "socialshareprivacy/infusion_db.php";
 
-if (file_exists(INFUSIONS . "socialshareprivacy_panel/locale/" . $settings['locale'] . ".php")) {
-    include INFUSIONS . "socialshareprivacy_panel/locale/" . $settings['locale'] . ".php";
+if (file_exists(INFUSIONS . "socialshareprivacy/locale/" . $settings['locale'] . ".php")) {
+    include INFUSIONS . "socialshareprivacy/locale/" . $settings['locale'] . ".php";
 } else {
-    include INFUSIONS . "socialshareprivacy_panel/locale/English.php";
+    include INFUSIONS . "socialshareprivacy/locale/English.php";
 }
 
 // Infusion general information
@@ -38,7 +38,7 @@ $inf_developer = "globeFrEak";
 $inf_email = "globefreak@cwclan.de";
 $inf_weburl = "http://www.cwclan.de";
 
-$inf_folder = "socialshareprivacy_panel";
+$inf_folder = "socialshareprivacy";
 
 $inf_newtable[1] = DB_SSP . "(
 id MEDIUMINT(4) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -62,7 +62,7 @@ $inf_droptable[1] = DB_SSP;
 
 $inf_adminpanel[1] = array(
     "title" => $locale['ssp_link'],
-    "image" => BASEDIR . INFUSIONS . "socialshareprivacy_panel/images/logo.png",
+    "image" => BASEDIR . INFUSIONS . "socialshareprivacy/images/logo.png",
     "panel" => "socialshareprivacy_admin.php",
     "rights" => "SSP"
 );

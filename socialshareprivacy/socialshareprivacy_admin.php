@@ -19,7 +19,7 @@
 require_once "../../maincore.php";
 require_once THEMES . "templates/admin_header.php";
 
-include INFUSIONS . "socialshareprivacy_panel/infusion_db.php";
+include INFUSIONS . "socialshareprivacy/infusion_db.php";
 
 if (!checkrights("SSP") || !defined("iAUTH") || $_GET['aid'] != iAUTH) {
     redirect("../index.php");
@@ -30,10 +30,10 @@ function ValidJson($string) {
     return (json_last_error() == JSON_ERROR_NONE);
 }
 
-if (file_exists(INFUSIONS . "socialshareprivacy_panel/locale/" . $settings['locale'] . ".php")) {
-    include INFUSIONS . "socialshareprivacy_panel/locale/" . $settings['locale'] . ".php";
+if (file_exists(INFUSIONS . "socialshareprivacy/locale/" . $settings['locale'] . ".php")) {
+    include INFUSIONS . "socialshareprivacy/locale/" . $settings['locale'] . ".php";
 } else {
-    include INFUSIONS . "socialshareprivacy_panel/locale/English.php";
+    include INFUSIONS . "socialshareprivacy/locale/English.php";
 }
 //// Select SSP Button by ID
 if (isset($_GET['ssp']) && $_GET['ssp'] == "sel" && isset($_POST['ssp_box']) && is_numeric($_POST['ssp_box'])) {
@@ -84,11 +84,11 @@ if (dbrows($result) != 0) {
 }
 closetable();
 
-add_to_head("<link type='text/css' href='" . INFUSIONS . "socialshareprivacy_panel/stylesheets/sspmain.css' rel='stylesheet' />");
-add_to_head("<script type='text/javascript' src='" . INFUSIONS . "socialshareprivacy_panel/scripts/jquery.socialshareprivacy.min.js'></script>");
+add_to_head("<link type='text/css' href='" . INFUSIONS . "socialshareprivacy/stylesheets/sspmain.css' rel='stylesheet' />");
+add_to_head("<script type='text/javascript' src='" . INFUSIONS . "socialshareprivacy/scripts/jquery.socialshareprivacy.min.js'></script>");
 
-if (file_exists(INFUSIONS . "socialshareprivacy_panel/scripts/jquery.socialshareprivacy.min." . $settings['locale'] . ".js")) {
-    add_to_head("<script type='text/javascript' src=' " . INFUSIONS . "socialshareprivacy_panel/scripts/jquery.socialshareprivacy.min." . $settings['locale'] . ".js'></script>");
+if (file_exists(INFUSIONS . "socialshareprivacy/scripts/jquery.socialshareprivacy.min." . $settings['locale'] . ".js")) {
+    add_to_head("<script type='text/javascript' src=' " . INFUSIONS . "socialshareprivacy/scripts/jquery.socialshareprivacy.min." . $settings['locale'] . ".js'></script>");
 }
 add_to_head('
 <script type="text/javascript">
@@ -96,10 +96,10 @@ add_to_head('
         console.log(json);
     var path_prefix_var = \'' . INFUSIONS . 'socialshareprivacy_panel/\';
     var siteurl = \'' . $settings['siteurl'] . '\';
-    if(!jQuery().cookies) document.write(\'<script type="text/javascript" src="' . INFUSIONS . 'socialshareprivacy_panel/scripts/jquery.cookies.js"><\/script>\');
+    if(!jQuery().cookies) document.write(\'<script type="text/javascript" src="' . INFUSIONS . 'socialshareprivacy/scripts/jquery.cookies.js"><\/script>\');
 </script>    
 ');
-add_to_head("<script type='text/javascript' src='" . INFUSIONS . "socialshareprivacy_panel/scripts/sspmain.js'></script>");
+add_to_head("<script type='text/javascript' src='" . INFUSIONS . "socialshareprivacy/scripts/sspmain.js'></script>");
 
 opentable($locale['ssp_admin']);
 echo "<form action='" . FUSION_SELF . $aidlink . "&ssp=edit' method='post' name='ssp_edit'>";
