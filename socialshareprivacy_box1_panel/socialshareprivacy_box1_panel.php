@@ -5,7 +5,7 @@
   | Copyright (C) 2002 - 2012 Nick Jones
   | http://www.php-fusion.co.uk/
   +--------------------------------------------------------+
-  | Mod: socialshareprivacy Panel
+  | Mod: socialshareprivacy_panels
   | Version: 1.00
   | Author: Philipp Horna (globeFrEak)
   +--------------------------------------------------------+
@@ -17,45 +17,38 @@
   | copyright header is strictly prohibited without
   | written permission from the original author(s).
   +-------------------------------------------------------- */
-include INFUSIONS . "socialshareprivacy_panel/infusion_db.php";
+if (!defined("IN_FUSION")) {
+    die("Access Denied");
+}
 
-add_to_head("<script type='text/javascript' src='" . INFUSIONS . "socialshareprivacy_panel/scripts/jquery.socialshareprivacy.min.js'></script>");
+include INFUSIONS . "socialshareprivacy/infusion_db.php";
+
+//add_to_head("<script type=\"text/javascript\">(function () {var s = document.createElement('script');var t = document.getElementsByTagName('script')[0];s.type = 'text/javascript';s.async = true;s.src = '" . BASEDIR . "infusions/socialshareprivacy/scripts/jquery.socialshareprivacy.min.autoload.js';t.parentNode.insertBefore(s, t);})();</script>");
+add_to_head("<script type='text/javascript' src='" . INFUSIONS . "socialshareprivacy/scripts/jquery.socialshareprivacy.min.js'></script>");
 add_to_head('
 <script type="text/javascript">
     if(jQuery().cookies) { } // test to see if the jQuery function is defined
-    else document.write(\'<script type="text/javascript" src="' . INFUSIONS . 'socialshareprivacy_panel/scripts/jquery.cookies.js"><\/script>\');
+    else document.write(\'<script type="text/javascript" src="' . INFUSIONS . 'socialshareprivacy/scripts/jquery.cookies.js"><\/script>\');
 </script>    
 ');
-
-if (file_exists(INFUSIONS . "socialshareprivacy_panel/scripts/jquery.socialshareprivacy.min." . $settings['locale'] . ".js")) {
-    include INFUSIONS . "socialshareprivacy_panel/scripts/jquery.socialshareprivacy.min." . $settings['locale'] . ".js";
+if (file_exists(INFUSIONS . "socialshareprivacy/scripts/jquery.socialshareprivacy.min." . $settings['locale'] . ".js")) {
+    add_to_head("<script type='text/javascript' src=' " . INFUSIONS . "socialshareprivacy/scripts/jquery.socialshareprivacy.min." . $settings['locale'] . ".js'></script>");
 }
-add_to_head("<script type=\"text/javascript\">
-    $.fn.socialSharePrivacy.settings.order = ['facebook', 'gplus', 'twitter', 'tumblr'];
-                $(document).ready(function () {
-                    $('.socialshareprivacy_box').socialSharePrivacy(
-                    {  
-                    'path_prefix' : '" . INFUSIONS . "socialshareprivacy_panel/',
-                    'css_path':    'scripts/jquery.socialshareprivacy.min.css',
-                    'perma_option': true,
-                    'info_link_target': '_blank',
-                    'layout' : 'box',
-                    services : {
-                        buffer:{status:false}, 
-                        delicious:{status:false},
-                        disqus:{status:false},
-                        flattr:{status:false} ,
-                        hackernews:{status:false}, 
-                        linkedin:{status:false}, 
-                        pinterest:{status:false}, 
-                        reddit:{status:false}, 
-                        stumbleupon:{status:false},
-                        tumblr:{status:false}, 
-                        xing:{status:false}}                     
-                    }                    
-                    );
-                });
-                </script>");
 
-echo "<div class='socialshareprivacy_box'></div>";
+$result = dbquery("SELECT json_options FROM " . DB_SSP . " WHERE box_id='ssp_box4'");
+$data = dbarray($result);
+
+$json = unserialize(base64_decode($data['json_options']));
+$json = substr($json, 1);
+$json = "{\"path_prefix\":\"" . INFUSIONS . "socialshareprivacy/\",\"css_path\":\"stylesheets/jquery.socialshareprivacy.min.css\"," . $json;
+
+add_to_head("<script type=\"text/javascript\">
+        $.fn.socialSharePrivacy.settings.order = ['facebook', 'twitter', 'gplus', 'mail', 'flattr', 'disqus', 'stumbleupon', 'delicious', 'reddit', 'pinterest', 'tumblr', 'linkedin', 'buffer', 'xing'];    
+        $(document).ready(function () {        
+            $('#ssp_box4').socialSharePrivacy(" . $json . ");            
+        });</script>");
+
+openside("Social Test", NULL, "on");
+echo "<div data-social-share-privacy='true' id='ssp_box4'></div>";
+closeside();
 ?>

@@ -35,7 +35,7 @@ if (file_exists(INFUSIONS . "socialshareprivacy/scripts/jquery.socialshareprivac
     add_to_head("<script type='text/javascript' src=' " . INFUSIONS . "socialshareprivacy/scripts/jquery.socialshareprivacy.min." . $settings['locale'] . ".js'></script>");
 }
 
-$result = dbquery("SELECT json_options FROM " . DB_SSP . " WHERE box_id='ssp_box2'");
+$result = dbquery("SELECT json_options FROM " . DB_SSP . " WHERE box_id='ssp_box1'");
 $data = dbarray($result);
 
 $json = unserialize(base64_decode($data['json_options']));
@@ -45,10 +45,10 @@ $json = "{\"path_prefix\":\"" . INFUSIONS . "socialshareprivacy/\",\"css_path\":
 add_to_head("<script type=\"text/javascript\">
         $.fn.socialSharePrivacy.settings.order = ['facebook', 'twitter', 'gplus', 'mail', 'flattr', 'disqus', 'stumbleupon', 'delicious', 'reddit', 'pinterest', 'tumblr', 'linkedin', 'buffer', 'xing'];    
         $(document).ready(function () {        
-            $('#ssp_box2').socialSharePrivacy(" . $json . ");            
+            $('#ssp_box1').socialSharePrivacy(" . $json . ");            
         });</script>");
 
 openside("Social Test", NULL, "on");
-echo "<div data-social-share-privacy='true' id='ssp_box2'></div>";
+echo "<div data-social-share-privacy='true' id='ssp_box1'></div>";
 closeside();
 ?>
