@@ -4,7 +4,7 @@
   | Copyright (C) 2002 - 2012 Nick Jones
   | http://www.php-fusion.co.uk/
   +--------------------------------------------------------+
-  | Mod: socialshareprivacy Panel
+  | Mod: socialshareprivacy_panels
   | Version: 1.00
   | Author: Philipp Horna (globeFrEak)
   +--------------------------------------------------------+
@@ -94,7 +94,7 @@ add_to_head('
 <script type="text/javascript">
     var json = ' . $json . ';
         console.log(json);
-    var path_prefix_var = \'' . INFUSIONS . 'socialshareprivacy_panel/\';
+    var path_prefix_var = \'' . INFUSIONS . 'socialshareprivacy/\';
     var siteurl = \'' . $settings['siteurl'] . '\';
     if(!jQuery().cookies) document.write(\'<script type="text/javascript" src="' . INFUSIONS . 'socialshareprivacy/scripts/jquery.cookies.js"><\/script>\');
 </script>    
@@ -166,7 +166,7 @@ echo "<form action='" . FUSION_SELF . $aidlink . "&ssp=edit' method='post' name=
                     }, 0);" readonly="readonly"></textarea>
 
 <label for="head-codejson" style="">Insert this once in the head of your page:</label>
-<textarea name="head-codejson" style="visibility: hidden;display: none;position: absolute;" id="head-codejson" onfocus="var code = this;
+<textarea name="head-codejson" id="head-codejson" onfocus="var code = this;
                     setTimeout(function() {
                         code.select();
                     }, 0);" readonly="readonly"></textarea>

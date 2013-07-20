@@ -12,7 +12,6 @@ $(document).ready(function() {
         var $service = $('<li><label class="checkbox-label"></label></li>');
         var $input = $('<input type="checkbox" checked="checked"/>');
 
-
         $input.attr({
             value: service_name,
             id: 'select-' + service_name

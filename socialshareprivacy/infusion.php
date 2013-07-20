@@ -5,8 +5,7 @@
   | Copyright (C) 2002 - 2012 Nick Jones
   | http://www.php-fusion.co.uk/
   +--------------------------------------------------------+
-  | Mod: socialshareprivacy Panel
-  | File: infusion.php
+  | Mod: socialshareprivacy_panels
   | Version: 1.00
   | Author: Philipp Horna (globeFrEak)
   +--------------------------------------------------------+
