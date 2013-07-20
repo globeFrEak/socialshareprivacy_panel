@@ -33,7 +33,6 @@ function escapeSQuotAttr(s) {
 }
 function updateEmbedCode() {
     var options = {
-        //path_prefix: path_prefix_var,
         layout: $('#layout').val(),
         info_link_target: '_blank'
     };

@@ -20,10 +20,14 @@ require_once "../../maincore.php";
 require_once THEMES . "templates/admin_header.php";
 
 include INFUSIONS . "socialshareprivacy_panel/infusion_db.php";
-//include INFUSIONS . "socialshareprivacy_panel/function.php";
 
 if (!checkrights("SSP") || !defined("iAUTH") || $_GET['aid'] != iAUTH) {
     redirect("../index.php");
+}
+
+function ValidJson($string) {
+    json_decode($string);
+    return (json_last_error() == JSON_ERROR_NONE);
 }
 
 if (file_exists(INFUSIONS . "socialshareprivacy_panel/locale/" . $settings['locale'] . ".php")) {
@@ -32,28 +36,54 @@ if (file_exists(INFUSIONS . "socialshareprivacy_panel/locale/" . $settings['loca
     include INFUSIONS . "socialshareprivacy_panel/locale/English.php";
 }
 //// Select SSP Button by ID
-opentable($locale['ssp_a_001']);
-
-closetable();
-
-//// Social Share Buttons Config Form
-//&& isset($_POST['id']) && is_numeric($_POST['id']) && isset($_POST['box_id'])
-if (isset($_GET['ssp']) && $_GET['ssp'] == "edit" && isset($_POST['head-codejson']) && isset($_POST['id']) && is_numeric($_POST['id']) && isset($_POST['box_id'])) {
-    $json_decode = base64_encode(serialize($_POST['head-codejson']));    
-    $id = $_POST['id'];
-    $box_id = mysql_real_escape_string($_POST['box_id']);
-    $result = dbquery("UPDATE " . DB_SSP . " SET id='$id', box_id='$box_id', json_options='$json_decode' WHERE id='$id' ");    
-    $json = unserialize(base64_decode($json_decode));    
-} else {
-    $result = dbquery("SELECT * FROM " . DB_SSP . " WHERE box_id = 'ssp_box1'");
-    if (dbrows($result) != 0) {
-        $data = dbarray($result);
+if (isset($_GET['ssp']) && $_GET['ssp'] == "sel" && isset($_POST['ssp_box']) && is_numeric($_POST['ssp_box'])) {
+    $id_sel = $_POST['ssp_box'];
+    $result_config = dbquery("SELECT * FROM " . DB_SSP . " WHERE id ='" . $_POST['ssp_box'] . "'");
+    if (dbrows($result_config) != 0) {
+        $data = dbarray($result_config);
         $id = $data['id'];
         $box_id = $data['box_id'];
         $json_options = '"' . $data['json_options'] . '"';
     }
-    $json = unserialize(base64_decode($json_options));    
+    $json = unserialize(base64_decode($json_options));
+} elseif (isset($_GET['ssp']) && $_GET['ssp'] == "edit" && isset($_POST['head-codejson']) && isset($_POST['id']) && is_numeric($_POST['id']) && isset($_POST['box_id'])) {
+    $id_sel = $_POST['id'];
+    //Config Form
+    ValidJson($_POST['head-codejson']);
+    $json_decode = base64_encode(serialize($_POST['head-codejson']));
+    $id = $_POST['id'];
+    $box_id = $_POST['box_id'];
+    $result = dbquery("UPDATE " . DB_SSP . " SET id='$id', json_options='$json_decode' WHERE id='$id' ");
+    $json = unserialize(base64_decode($json_decode));
+} else {
+    $result_config = dbquery("SELECT * FROM " . DB_SSP . " ORDER BY id ASC LIMIT 1");
+    $id_sel = "";
+    if (dbrows($result_config) != 0) {
+        $data = dbarray($result_config);
+        $id = $id_sel = $data['id'];
+        $box_id = $data['box_id'];
+        $json_options = '"' . $data['json_options'] . '"';
+    }
+    $json = unserialize(base64_decode($json_options));
 }
+
+opentable($locale['ssp_a_001']);
+$result = dbquery("SELECT id, box_id FROM " . DB_SSP . " ");
+if (dbrows($result) != 0) {
+    echo "<form action='" . FUSION_SELF . $aidlink . "&ssp=sel' method='post' name='ssp_sel'>";
+    echo "<select name='ssp_box' onchange=\"javascript:this.form.submit()\">";
+    while ($data = dbarray($result)) {
+        if ($data['id'] == $id_sel) {
+            echo "<option value='" . $data['id'] . "' selected>" . $data['box_id'] . "</option>";
+        } else {
+            echo "<option value='" . $data['id'] . "'>" . $data['box_id'] . "</option>";
+        }
+    }
+    echo "</select>";
+    echo "</form>";
+}
+closetable();
+
 add_to_head("<link type='text/css' href='" . INFUSIONS . "socialshareprivacy_panel/stylesheets/sspmain.css' rel='stylesheet' />");
 add_to_head("<script type='text/javascript' src='" . INFUSIONS . "socialshareprivacy_panel/scripts/jquery.socialshareprivacy.min.js'></script>");
 
@@ -136,7 +166,7 @@ echo "<form action='" . FUSION_SELF . $aidlink . "&ssp=edit' method='post' name=
                     }, 0);" readonly="readonly"></textarea>
 
 <label for="head-codejson" style="">Insert this once in the head of your page:</label>
-<textarea name="head-codejson" id="head-codejson" onfocus="var code = this;
+<textarea name="head-codejson" style="visibility: hidden;display: none;position: absolute;" id="head-codejson" onfocus="var code = this;
                     setTimeout(function() {
                         code.select();
                     }, 0);" readonly="readonly"></textarea>
