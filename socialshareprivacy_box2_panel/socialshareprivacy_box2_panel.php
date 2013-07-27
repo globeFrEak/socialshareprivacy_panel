@@ -48,7 +48,7 @@ add_to_head("<script type=\"text/javascript\">
             $('#ssp_box2').socialSharePrivacy(" . $json . ");            
         });</script>");
 
-openside("Social Test", NULL, "on");
+opentable("Social Test Main");
 echo "<div data-social-share-privacy='true' id='ssp_box2'></div>";
-closeside();
+closetable();
 ?>

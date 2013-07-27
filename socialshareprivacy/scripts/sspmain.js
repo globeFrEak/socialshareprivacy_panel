@@ -72,32 +72,10 @@ function updateEmbedCode() {
         if (!options.services)
             options.services = {};
         options.services.disqus = {shortname: disqus_shortname};
-    }
-    var head_code = [];
-    if (cookies) {
-        head_code.push('<script type="text/javascript" src="' + path_prefix_var + 'scripts/jquery.cookies.js"></script>');
-    }
-    head_code.push('<script type=\"text/javascript\">(\'#share\').socialSharePrivacy({' + escapeSQuotAttr(JSON.stringify(options)) + '});</script>');
-
-    head_code = head_code.join('\n');
-    $('#head-code').val(head_code);
-    $('#head-code, label[for="head-code"]').show();
+    }    
 
     $('#head-codejson').val(escapeSQuotAttr(JSON.stringify(options)));
     $('#head-codejson, label[for="head-codejson"]').show();
-
-    $('#foot-code').val(
-            "<script type=\"text/javascript\">(function () {" +
-            "var s = document.createElement('script');" +
-            "var t = document.getElementsByTagName('script')[0];" +
-            "s.type = 'text/javascript';" +
-            "s.async = true;" +
-            "s.src = '" + path_prefix_var + "scripts/jquery.socialshareprivacy.min.autoload.js';" +
-            "t.parentNode.insertBefore(s, t);" +
-            "})();" +
-            "</script>").show();
-    $('label[for="foot-code"]').show();
-    $('#share-code').val("<div data-social-share-privacy='true'></div>");
     $("#share").socialSharePrivacy("destroy").css("position", options.layout === "line" ? "static" : "").socialSharePrivacy(options);
 }
 function updateForm() {

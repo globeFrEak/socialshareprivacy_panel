@@ -93,7 +93,6 @@ if (file_exists(INFUSIONS . "socialshareprivacy/scripts/jquery.socialshareprivac
 add_to_head('
 <script type="text/javascript">
     var json = ' . $json . ';
-        console.log(json);
     var path_prefix_var = \'' . INFUSIONS . 'socialshareprivacy/\';
     var siteurl = \'' . $settings['siteurl'] . '\';
     if(!jQuery().cookies) document.write(\'<script type="text/javascript" src="' . INFUSIONS . 'socialshareprivacy/scripts/jquery.cookies.js"><\/script>\');
@@ -101,21 +100,21 @@ add_to_head('
 ');
 add_to_head("<script type='text/javascript' src='" . INFUSIONS . "socialshareprivacy/scripts/sspmain.js'></script>");
 
-opentable($locale['ssp_admin']);
+opentable($locale['ssp_a_002']);
 echo "<form action='" . FUSION_SELF . $aidlink . "&ssp=edit' method='post' name='ssp_edit'>";
 ?>
-<div id="service-edit">
-    <div id="service-select">
-        <label for="select-all">
-            <input type="checkbox" id="select-all" value="all" checked="checked" onchange="$('#service-select ul input[type=checkbox]').prop('checked', this.checked);
-                    updateEmbedCode();">
-            All</label>
-        <ul>
-        </ul>
-    </div>
+<div id="service-edit">    
     <table id="options-and-code">
         <tbody>
-            <tr>
+            <tr><td rowspan="6">
+                    <div id="service-select">
+                        <label for="select-all">
+                            <input type="checkbox" id="select-all" value="all" checked="checked" onchange="$('#service-select ul input[type=checkbox]').prop('checked', this.checked);
+                                    updateEmbedCode();">
+                            All</label>
+                        <ul>
+                        </ul>
+                    </div></td>
                 <td class="label"><label for="layout">Layout:</label></td>
                 <td>
                     <select id="layout" onchange="updateEmbedCode();">
@@ -155,42 +154,44 @@ echo "<form action='" . FUSION_SELF . $aidlink . "&ssp=edit' method='post' name=
                     <input id="disqus-shortname" type="text" onchange="updateEmbedCode();">
                 </td>
             </tr>
+            <tr>
+                <td colspan="2">
+                    <?php
+                    echo "<input type='hidden' name='id' value='" . $id . "'>";
+                    echo "<input type='hidden' name='box_id' value='" . $box_id . "'>";
+                    ?>
+                    <input type="submit" value="Speichern">
+                </td>
             </tr>
         </tbody>
     </table>
 </div>
-<label for="head-code" style="">Insert this once in the head of your page:</label>
-<textarea id="head-code" onfocus="var code = this;
-                    setTimeout(function() {
-                        code.select();
-                    }, 0);" readonly="readonly"></textarea>
-
-<label for="head-codejson" style="">Insert this once in the head of your page:</label>
-<textarea name="head-codejson" id="head-codejson" onfocus="var code = this;
-                    setTimeout(function() {
-                        code.select();
-                    }, 0);" readonly="readonly"></textarea>
-
-<label for="share-code">Insert this wherever you want a share widget displayed (can be multiple times):</label>
-<textarea id="share-code" onfocus="var code = this;
-                    setTimeout(function() {
-                        code.select();
-                    }, 0);" readonly="readonly"></textarea>
-
-<label for="foot-code" style="">Insert this once anywhere after the other code (e.g. the bottom of the page):</label>
-<textarea id="foot-code" onfocus="var code = this;
-                    setTimeout(function() {
-                        code.select();
-                    }, 0);" readonly="readonly"></textarea>
-          <?php
-          echo "<input type='hidden' name='id' value='" . $id . "'>";
-          echo "<input type='hidden' name='box_id' value='" . $box_id . "'>";
-          ?>
-<input type="submit" value="Speichern">
+<textarea name="head-codejson" style="display:none;visibility:hidden;" id="head-codejson" onfocus="var code = this;
+                                    setTimeout(function() {
+                                        code.select();
+                                    }, 0);" readonly="readonly"></textarea>
 </form>
+<hr></hr>
+<h5><?php echo $locale['ssp_a_003'] ?></h5>
 <div id="share"></div>
 
 <?php
 closetable();
+
+opentable($locale['ssp_faq_001']);
+echo "<h5>" . $locale['ssp_faq_1_001'] . "</h5>";
+echo "<div>" . $locale['ssp_faq_1_002'] . "</div>";
+echo "<hr></hr>";
+echo "<h5>" . $locale['ssp_faq_2_001'] . "</h5>";
+echo "<div>" . $locale['ssp_faq_2_002'] . "</div>";
+echo "<ul>";
+echo "<li>" . $locale['ssp_faq_2_003'] . "</li>";
+echo "<li>" . $locale['ssp_faq_2_004'] . "</li>";
+echo "<li>" . $locale['ssp_faq_2_005'] . "</li>";
+echo "</ul>";
+echo "<hr></hr>";
+
+closetable();
+
 require_once(THEMES . "templates/footer.php");
 ?>
