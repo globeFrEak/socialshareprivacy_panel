@@ -23,7 +23,7 @@ if (!defined("IN_FUSION")) {
 
 include INFUSIONS . "socialshareprivacy/infusion_db.php";
 
-add_to_head("<style type='text/css'>#ssp_box1 .social_share_privacy_area.box {width: 100%;}</style>");
+add_to_head("<style type='text/css'>#ssp_box1 .social_share_privacy_area.box {width: 100%;}#ssp_box1 .social_share_privacy_area li.settings_info .settings_info_menu {position:relative;margin-top:5px;}</style>");
 
 //add_to_head("<script type=\"text/javascript\">(function () {var s = document.createElement('script');var t = document.getElementsByTagName('script')[0];s.type = 'text/javascript';s.async = true;s.src = '" . BASEDIR . "infusions/socialshareprivacy/scripts/jquery.socialshareprivacy.min.autoload.js';t.parentNode.insertBefore(s, t);})();</script>");
 add_to_head("<script type='text/javascript' src='" . INFUSIONS . "socialshareprivacy/scripts/jquery.socialshareprivacy.min.js'></script>");
