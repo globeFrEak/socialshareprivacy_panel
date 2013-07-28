@@ -43,6 +43,7 @@ if (isset($_GET['ssp']) && $_GET['ssp'] == "sel" && isset($_POST['ssp_box']) && 
         $data = dbarray($result_config);
         $id = $data['id'];
         $box_id = $data['box_id'];
+        $name = $data['name'];
         $json_options = '"' . $data['json_options'] . '"';
     }
     $json = unserialize(base64_decode($json_options));
@@ -53,7 +54,8 @@ if (isset($_GET['ssp']) && $_GET['ssp'] == "sel" && isset($_POST['ssp_box']) && 
     $json_decode = base64_encode(serialize($_POST['head-codejson']));
     $id = $_POST['id'];
     $box_id = $_POST['box_id'];
-    $result = dbquery("UPDATE " . DB_SSP . " SET id='$id', json_options='$json_decode' WHERE id='$id' ");
+    $name = mysql_real_escape_string($_POST['name']);
+    $result = dbquery("UPDATE " . DB_SSP . " SET id='$id', name='$name', json_options='$json_decode' WHERE id='$id' ");
     $json = unserialize(base64_decode($json_decode));
 } else {
     $result_config = dbquery("SELECT * FROM " . DB_SSP . " ORDER BY id ASC LIMIT 1");
@@ -62,6 +64,7 @@ if (isset($_GET['ssp']) && $_GET['ssp'] == "sel" && isset($_POST['ssp_box']) && 
         $data = dbarray($result_config);
         $id = $id_sel = $data['id'];
         $box_id = $data['box_id'];
+        $name = $data['name'];
         $json_options = '"' . $data['json_options'] . '"';
     }
     $json = unserialize(base64_decode($json_options));
@@ -106,7 +109,7 @@ echo "<form action='" . FUSION_SELF . $aidlink . "&ssp=edit' method='post' name=
 <div id="service-edit">    
     <table id="options-and-code">
         <tbody>
-            <tr><td rowspan="6">
+            <tr><td rowspan="7">
                     <div id="service-select">
                         <label for="select-all">
                             <input type="checkbox" id="select-all" value="all" checked="checked" onchange="$('#service-select ul input[type=checkbox]').prop('checked', this.checked);
@@ -115,6 +118,14 @@ echo "<form action='" . FUSION_SELF . $aidlink . "&ssp=edit' method='post' name=
                         <ul>
                         </ul>
                     </div></td>
+                <td class="label"><label for="layout">Panel name:</label></td>
+                <td>
+                    <?php
+                    echo "<input type='text' name='name' value='" . $name . "'>";                                        
+                    ?>
+                </td>
+            </tr>
+            <tr>
                 <td class="label"><label for="layout">Layout:</label></td>
                 <td>
                     <select id="layout" onchange="updateEmbedCode();">
@@ -158,7 +169,7 @@ echo "<form action='" . FUSION_SELF . $aidlink . "&ssp=edit' method='post' name=
                 <td colspan="2">
                     <?php
                     echo "<input type='hidden' name='id' value='" . $id . "'>";
-                    echo "<input type='hidden' name='box_id' value='" . $box_id . "'>";
+                    echo "<input type='hidden' name='box_id' value='" . $box_id . "'>";                    
                     ?>
                     <input type="submit" value="Speichern">
                 </td>

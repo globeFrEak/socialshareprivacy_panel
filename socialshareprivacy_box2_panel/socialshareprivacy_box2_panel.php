@@ -22,8 +22,6 @@ if (!defined("IN_FUSION")) {
 }
 
 include INFUSIONS . "socialshareprivacy/infusion_db.php";
-
-//add_to_head("<script type=\"text/javascript\">(function () {var s = document.createElement('script');var t = document.getElementsByTagName('script')[0];s.type = 'text/javascript';s.async = true;s.src = '" . BASEDIR . "infusions/socialshareprivacy/scripts/jquery.socialshareprivacy.min.autoload.js';t.parentNode.insertBefore(s, t);})();</script>");
 add_to_head("<script type='text/javascript' src='" . INFUSIONS . "socialshareprivacy/scripts/jquery.socialshareprivacy.min.js'></script>");
 add_to_head('
 <script type="text/javascript">
@@ -35,7 +33,7 @@ if (file_exists(INFUSIONS . "socialshareprivacy/scripts/jquery.socialshareprivac
     add_to_head("<script type='text/javascript' src=' " . INFUSIONS . "socialshareprivacy/scripts/jquery.socialshareprivacy.min." . $settings['locale'] . ".js'></script>");
 }
 
-$result = dbquery("SELECT json_options FROM " . DB_SSP . " WHERE box_id='ssp_box2'");
+$result = dbquery("SELECT name, json_options FROM " . DB_SSP . " WHERE box_id='ssp_box2'");
 $data = dbarray($result);
 
 $json = unserialize(base64_decode($data['json_options']));
@@ -48,7 +46,7 @@ add_to_head("<script type=\"text/javascript\">
             $('#ssp_box2').socialSharePrivacy(" . $json . ");            
         });</script>");
 
-opentable("Social Test Main");
+opentable($data['name']);
 echo "<div data-social-share-privacy='true' id='ssp_box2'></div>";
 closetable();
 ?>

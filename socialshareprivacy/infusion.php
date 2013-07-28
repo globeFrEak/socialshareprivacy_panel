@@ -42,15 +42,16 @@ $inf_folder = "socialshareprivacy";
 $inf_newtable[1] = DB_SSP . "(
 id MEDIUMINT(4) UNSIGNED NOT NULL AUTO_INCREMENT,
 box_id VARCHAR(25) NOT NULL DEFAULT  'socialshareprivacy',
+name VARCHAR(25),
 json_options TEXT,
 PRIMARY KEY (id)
 ) ENGINE=MyISAM;";
 
 //Tabellen Installation (Default Eintrag)
-$inf_insertdbrow[1] = DB_SSP . '(box_id, json_options) VALUES("ssp_box1", "czo2NDoieyJsYXlvdXQiOiJib3giLCJpbmZvX2xpbmtfdGFyZ2V0IjoiX2JsYW5rIiwicGVybWFfb3B0aW9uIjp0cnVlfSI7")';
-$inf_insertdbrow[2] = DB_SSP . '(box_id, json_options) VALUES("ssp_box2", "czo2NDoieyJsYXlvdXQiOiJib3giLCJpbmZvX2xpbmtfdGFyZ2V0IjoiX2JsYW5rIiwicGVybWFfb3B0aW9uIjp0cnVlfSI7")';
-$inf_insertdbrow[3] = DB_SSP . '(box_id, json_options) VALUES("ssp_box3", "czo2NToieyJsYXlvdXQiOiJsaW5lIiwiaW5mb19saW5rX3RhcmdldCI6Il9ibGFuayIsInBlcm1hX29wdGlvbiI6dHJ1ZX0iOw==")';
-$inf_insertdbrow[4] = DB_SSP . '(box_id, json_options) VALUES("ssp_box4", "czo2NToieyJsYXlvdXQiOiJsaW5lIiwiaW5mb19saW5rX3RhcmdldCI6Il9ibGFuayIsInBlcm1hX29wdGlvbiI6dHJ1ZX0iOw==")';
+$inf_insertdbrow[1] = DB_SSP . '(box_id, name, json_options) VALUES("ssp_box1", "ssp_box1", "czo2NDoieyJsYXlvdXQiOiJib3giLCJpbmZvX2xpbmtfdGFyZ2V0IjoiX2JsYW5rIiwicGVybWFfb3B0aW9uIjp0cnVlfSI7")';
+$inf_insertdbrow[2] = DB_SSP . '(box_id, name, json_options) VALUES("ssp_box2", "ssp_box2", "czo2NDoieyJsYXlvdXQiOiJib3giLCJpbmZvX2xpbmtfdGFyZ2V0IjoiX2JsYW5rIiwicGVybWFfb3B0aW9uIjp0cnVlfSI7")';
+$inf_insertdbrow[3] = DB_SSP . '(box_id, name, json_options) VALUES("ssp_box3", "ssp_box3", "czo2NToieyJsYXlvdXQiOiJsaW5lIiwiaW5mb19saW5rX3RhcmdldCI6Il9ibGFuayIsInBlcm1hX29wdGlvbiI6dHJ1ZX0iOw==")';
+$inf_insertdbrow[4] = DB_SSP . '(box_id, name, json_options) VALUES("ssp_box4", "ssp_box4", "czo2NToieyJsYXlvdXQiOiJsaW5lIiwiaW5mb19saW5rX3RhcmdldCI6Il9ibGFuayIsInBlcm1hX29wdGlvbiI6dHJ1ZX0iOw==")';
 
 //Tabellen Änderung (Update)
 //$inf_altertable_[1] = "table_name ADD field5 INT 10 NOT NULL";
