@@ -200,6 +200,10 @@ echo "<li>" . $locale['ssp_faq_2_003'] . "</li>";
 echo "<li>" . $locale['ssp_faq_2_004'] . "</li>";
 echo "<li>" . $locale['ssp_faq_2_005'] . "</li>";
 echo "</ul>";
+echo "<div>" . $locale['ssp_faq_2_006'] . "</div>";
+echo "<hr></hr>";
+echo "<h5>" . $locale['ssp_faq_3_001'] . "</h5>";
+echo "<div>" . $locale['ssp_faq_3_002'] . "</div>";
 echo "<hr></hr>";
 
 closetable();
