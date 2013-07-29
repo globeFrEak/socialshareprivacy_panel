@@ -4,8 +4,7 @@
   | Copyright (C) 2002 - 2012 Nick Jones
   | http://www.php-fusion.co.uk/
   +--------------------------------------------------------+
-  | Mod: socialshareprivacy Panel
-  | File: infusion_db.php
+  | Mod: socialshareprivacy_panels
   | Version: 1.00
   | Author: Philipp Horna (globeFrEak)
   +--------------------------------------------------------+
@@ -21,8 +20,5 @@ if (!defined("IN_FUSION")) { die("Access Denied"); }
 
 if (!defined("DB_SSP")) {
 	define("DB_SSP", DB_PREFIX."ssp_main");
-}
-if (!defined("DB_SSP_SER")) {
-	define("DB_SSP_SER", DB_PREFIX."ssp_services");
 }
 ?>
