@@ -121,7 +121,7 @@ echo "<form action='" . FUSION_SELF . $aidlink . "&ssp=edit' method='post' name=
                 <td class="label"><label for="layout">Panel name:</label></td>
                 <td>
                     <?php
-                    echo "<input type='text' name='name' value='" . $name . "'>";                                        
+                    echo "<input type='text' name='name' value='" . $name . "'>";
                     ?>
                 </td>
             </tr>
@@ -169,7 +169,7 @@ echo "<form action='" . FUSION_SELF . $aidlink . "&ssp=edit' method='post' name=
                 <td colspan="2">
                     <?php
                     echo "<input type='hidden' name='id' value='" . $id . "'>";
-                    echo "<input type='hidden' name='box_id' value='" . $box_id . "'>";                    
+                    echo "<input type='hidden' name='box_id' value='" . $box_id . "'>";
                     ?>
                     <input type="submit" value="Speichern">
                 </td>
@@ -185,28 +185,28 @@ echo "<form action='" . FUSION_SELF . $aidlink . "&ssp=edit' method='post' name=
 <hr></hr>
 <h5><?php echo $locale['ssp_a_003'] ?></h5>
 <div id="share"></div>
-
 <?php
 closetable();
-
+//// FAQ
 opentable($locale['ssp_faq_001']);
 echo "<h5>" . $locale['ssp_faq_1_001'] . "</h5>";
-echo "<div>" . $locale['ssp_faq_1_002'] . "</div>";
+echo "<p>" . $locale['ssp_faq_1_002'] . "</p>";
 echo "<hr></hr>";
 echo "<h5>" . $locale['ssp_faq_2_001'] . "</h5>";
-echo "<div>" . $locale['ssp_faq_2_002'] . "</div>";
+echo "<p>" . $locale['ssp_faq_2_002'] . "</p>";
 echo "<ul>";
 echo "<li>" . $locale['ssp_faq_2_003'] . "</li>";
 echo "<li>" . $locale['ssp_faq_2_004'] . "</li>";
 echo "<li>" . $locale['ssp_faq_2_005'] . "</li>";
 echo "</ul>";
-echo "<div>" . $locale['ssp_faq_2_006'] . "</div>";
+echo "<p>" . $locale['ssp_faq_2_007'] . "</p>";
+echo "<textarea class='textbssp' readonly='readonly' rows='1' cols='80'>" . $locale['ssp_faq_2_008'] . "</textarea>";
+echo "<textarea class='textbssp' readonly='readonly' rows='1' cols='80'>" . $locale['ssp_faq_2_009'] . "</textarea>";
+echo "<p>" . $locale['ssp_faq_2_006'] . "</p>";
 echo "<hr></hr>";
 echo "<h5>" . $locale['ssp_faq_3_001'] . "</h5>";
-echo "<div>" . $locale['ssp_faq_3_002'] . "</div>";
+echo "<p>" . $locale['ssp_faq_3_002'] . "</p>";
 echo "<hr></hr>";
-
 closetable();
-
 require_once(THEMES . "templates/footer.php");
 ?>

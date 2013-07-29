@@ -17,13 +17,11 @@
   | copyright header is strictly prohibited without
   | written permission from the original author(s).
   +-------------------------------------------------------- */
-if (!defined("IN_FUSION")) {
-    die("Access Denied");
-}
 include INFUSIONS . "socialshareprivacy/infusion_db.php";
-$result = dbquery("SELECT name, json_options FROM " . DB_SSP . " WHERE box_id='ssp_box2'");
+$result = dbquery("SELECT json_options FROM " . DB_SSP . " WHERE box_id='ssp_box3'");
 if (dbrows($result) != 0) {
     $data = dbarray($result);
+    add_to_head("<link rel='stylesheet' href='" . INFUSIONS . "socialshareprivacy_box3_panel/style.css' type='text/css'/>\n");
     add_to_head("<script type='text/javascript' src='" . INFUSIONS . "socialshareprivacy/scripts/jquery.socialshareprivacy.min.js'></script>");
     add_to_head('
 <script type="text/javascript">
@@ -41,11 +39,9 @@ if (dbrows($result) != 0) {
     add_to_head("<script type=\"text/javascript\">
         $.fn.socialSharePrivacy.settings.order = ['facebook', 'twitter', 'gplus', 'mail', 'flattr', 'disqus', 'stumbleupon', 'delicious', 'reddit', 'pinterest', 'tumblr', 'linkedin', 'buffer', 'xing'];    
         $(document).ready(function () {        
-            $('#ssp_box2').socialSharePrivacy(" . $json . ");            
+            $('#ssp_box3').socialSharePrivacy(" . $json . ");            
         });</script>");
 
-    opentable($data['name']);
-    echo "<div data-social-share-privacy='true' id='ssp_box2'></div>";
-    closetable();
+    echo "<div data-social-share-privacy='true' id='ssp_box3'></div>";
 }
 ?>
